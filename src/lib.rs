@@ -1,5 +1,5 @@
 #![feature(generic_const_exprs)]
-use std::ops::Deref;
+use std::ops::{Deref, DerefMut};
 
 /// A struct that can be either an [`Option<T>`][Option] or a `T` depending on a
 /// const generic boolean
@@ -70,5 +70,17 @@ impl<T> Deref for MaybeOption<T, false> {
 
     fn deref(&self) -> &Self::Target {
         &self.value[0]
+    }
+}
+
+impl<T> DerefMut for MaybeOption<T, true> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.option[0]
+    }
+}
+
+impl<T> DerefMut for MaybeOption<T, false> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.value[0]
     }
 }
