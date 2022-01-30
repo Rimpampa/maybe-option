@@ -12,6 +12,26 @@ where
     value: [T; !IS_OPTION as usize],
 }
 
+impl<T: Clone, const IS_OPTION: bool> Clone for MaybeOption<T, IS_OPTION>
+where
+    [(); IS_OPTION as usize]:,
+    [(); !IS_OPTION as usize]:,
+{
+    fn clone(&self) -> Self {
+        Self {
+            value: self.value.clone(),
+            option: self.option.clone(),
+        }
+    }
+}
+
+impl<T: Copy, const IS_OPTION: bool> Copy for MaybeOption<T, IS_OPTION>
+where
+    [(); IS_OPTION as usize]:,
+    [(); !IS_OPTION as usize]:,
+{
+}
+
 impl<T> From<T> for MaybeOption<T, false> {
     fn from(v: T) -> Self {
         Self {
