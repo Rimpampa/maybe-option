@@ -84,3 +84,24 @@ impl<T> DerefMut for MaybeOption<T, false> {
         &mut self.value[0]
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_value() {
+        let mut mb: MaybeOption<usize, false> = 1.into();
+        *mb += 1;
+        assert_eq!(*mb, 2);
+    }
+
+    #[test]
+    fn test_option() {
+        let mut mb: MaybeOption<usize, true> = Some(1).into();
+        if let Some(ref mut v) = *mb {
+            *v += 1
+        }
+        assert_eq!(*mb, Some(2));
+    }
+}
